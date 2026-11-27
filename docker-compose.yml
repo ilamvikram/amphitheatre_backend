@@ -1,0 +1,30 @@
+# version: '3.3'
+
+# services:
+#   developer_amp_backend:
+#     build:
+#       context: .
+#       dockerfile: Dockerfile
+#     container_name: developer_amp_backend
+#     restart: always
+#     ports:
+#       - 9001:9001
+#     command: gunicorn -w 10 amphitheatre_backend.wsgi -b 0.0.0.0:9001 --timeout 1000
+#     env_file:
+#       - .env
+
+version: '3.3'
+
+services:
+  developer_amp_backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    container_name: developer_amp_backend
+    restart: always
+    ports:
+      - "${APPPORT}:${APPPORT}"  # Use APP_PORT from .env
+    command: gunicorn -w 10 amphitheatre_backend.wsgi -b 0.0.0.0:${APPPORT} --timeout 1000
+    
